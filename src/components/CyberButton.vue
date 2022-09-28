@@ -1,0 +1,106 @@
+<template>
+    <div class="anniu" style="position: absolute;margin-top: 95vh;transform: rotateZ(180deg);"></div>
+</template>
+<style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: rgb(243, 239, 8);
+    }
+
+    .anniu,
+    .anniu::after {
+      font-family: 'Do Hyeon', sans-serif;
+      width: 80%;
+      height: 40px;
+      text-align: center;
+      font-size: 22px;
+      line-height: 40px;
+      color: rgb(255, 251, 251);
+      background: linear-gradient(30deg, transparent 10%, rgb(64, 184, 130)10% 95%, rgb(255, 57, 57)  95%);
+      box-shadow: 5px 0 0 rgb(0, 204, 255);
+      cursor: pointer;
+      position: relative;
+    }
+
+    .anniu::after {
+      content: '🍉  🍉  🍉 🍉';
+      position: absolute;
+      top: 0;
+      left: 0;
+      text-shadow: -5px -2px 0 rgb(0, 183, 255),
+        5px 2px 0 rgb(0, 255, 115);
+      visibility: hidden;
+    }
+
+    .anniu:hover::after {
+      animation: san 1s;
+      animation-timing-function: steps(1, end);
+    }
+
+    @keyframes san {
+      0% {
+        clip-path: inset(20% -5px 60% 0);
+        transform: translate(-6px, 5px);
+        visibility: visible;
+      }
+
+      10% {
+        clip-path: inset(50% -5px 30% 0);
+        transform: translate(6px, -5px);
+      }
+
+      20% {
+        clip-path: inset(20% -5px 60% 0);
+        transform: translate(5px, 0px);
+      }
+
+      30% {
+        clip-path: inset(80% -5px 5% 0);
+        transform: translate(-8px, 5px);
+      }
+
+      40% {
+        clip-path: inset(0 -5px 80% 0);
+        transform: translate(-4px, -3px);
+      }
+
+      50% {
+        clip-path: inset(50% -5px 30% 0);
+        transform: translate(-6px, -5px);
+      }
+
+      60% {
+        clip-path: inset(80% -5px 5% 0);
+        transform: translate(-7px, 5px);
+      }
+
+      70% {
+        clip-path: inset(0 -5px 80% 0);
+        transform: translate(3px, 6px);
+      }
+
+      80% {
+        clip-path: inset(50% -5px 30% 0);
+        transform: translate(5px, 5px);
+      }
+
+      90% {
+        clip-path: inset(20% -5px 60% 0);
+        transform: translate(6px, -5px);
+      }
+
+      100% {
+        clip-path: inset(0 -5px 80% 0);
+        transform: translate(1px, 5px);
+      }
+    }
+</style>
