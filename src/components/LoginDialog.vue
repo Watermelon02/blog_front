@@ -1,6 +1,6 @@
 <template>
   <!-- Form -->
-  <el-button text @click="dialogFormVisible = true">open a Form nested Dialog</el-button>
+
 
   <el-dialog v-model="dialogFormVisible" title="Shipping address">
     <el-form :model="form">

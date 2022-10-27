@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Tag, type Passage, type Result } from '@/bean/Bean';
-import axios from 'axios';
+import { service } from '@/main';
 import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 
@@ -11,7 +11,7 @@ var tagId = '1'
 var tagName = ref('')
 const tags = [new Tag("生活", 1), new Tag("安卓", 2), new Tag("前端", 3), new Tag("后端", 4)]
 const fetchPassagesByTag = () => {
-    axios.get<Result<Array<Passage>>>("http://localhost:8080/passage/selectByTag", { params: { curPage: currentPage.value, tag_id: tagId } })
+    service.get<Result<Array<Passage>>>(import.meta.env.VITE_HOST+"/passage/selectByTag", { params: { curPage: currentPage.value, tag_id: tagId } })
         .then((response) => {
             total.value = response.data.total
             passages.value = passages.value.concat(response.data.data)

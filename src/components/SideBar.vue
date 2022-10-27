@@ -1,20 +1,25 @@
 <script setup lang="ts">
-import LoginDialog from "./LoginDialog.vue";
+import CyberButton from "./CyberButton.vue";
+import githubIcon from '@/assets/github.svg';
+import homeIcon from '@/assets/home.svg';
+import aboutIcon from '@/assets/about.svg';
+import searchIcon from '@/assets/search.svg';
 class Route {
-    constructor(public name: string, public route: string) {
+    constructor(public name: string, public route: string,public img: string) {
         this.name = name
         this.route = route
+        this.img = img
     }
 }
-const pages: Route[] = [new Route('主页', 'home'), new Route('关于', 'about'), new Route('搜索', 'search'), new Route('友联', 'link')]
+const pages: Route[] = [new Route('主页', '',homeIcon),new Route('关于', 'about',aboutIcon), new Route('搜索', 'search',searchIcon)]
 </script>
 
 <template>
     <aside class="side-bar" style="align-items: left;">
 
         <div class="avater">
-            <img src="@/assets/logo.svg" width="40" height="40" />
-            <img class="ring" src="@/assets/ring.svg" width="120" height="120" />
+            <img src="/logo.svg" width="40" height="40" />
+            <img class="ring" src="/ring.svg" width="120" height="120" />
         </div>
 
         <div class="site-info">
@@ -22,24 +27,20 @@ const pages: Route[] = [new Route('主页', 'home'), new Route('关于', 'about'
             <h5 class="self-description" style="color: #BABABA;">Hello !</h5>
         </div>
 
-        <div class="routes">.
-            <div style="margin: 1em;align-items: center;display: inline-flex;">
-                <a href="https://github.com/Watermelon02"
-                    style="align-items: center;display: inline-flex;font-size: 1px;">
-                    <img :src="`/src/assets/github.svg`" width="24" height="24" style="margin-right: 3em;" />
-                </a>
+        <div class="routes">
+            <RouterLink to='https://github.com/Watermelon02'
+                style="display: inline-flex;margin-top: 1em;margin-bottom: 1em;"> <img :src="githubIcon" width="20"
+                    height="20" style="margin-right: 2vw;" />
+            </RouterLink>
+            
+            <div v-for="page in pages">
 
-            </div>
-            <div v-for="page in pages" style="margin: 1em;">
-                <RouterLink :to="`/${page.route}`" style="display: inline-flex;"> <img
-                        :src="`/src/assets/${page.route}.svg`" width="20" height="20"
-                        style="margin-right: 2vw" />{{page.name}}
+                <RouterLink :to="`/${page.route}`" style="display: inline-flex;margin-top: 1em;margin-bottom: 1em;">
+                    <img :src="page.img" width="20" height="20" style="margin-right: 2vw" />{{page.name}}
                 </RouterLink>
             </div>
         </div>
-        <CyberButton/>
-        <LoginDialog/>
-        
+        <CyberButton @click="$emit('login_click')" />
     </aside>
 </template>
 

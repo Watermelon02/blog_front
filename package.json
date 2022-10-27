@@ -3,7 +3,10 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
+    "serve-dev": "vite --mode dev",
+    "serve-prod": "vite --mode prod",
     "build": "run-p type-check build-only",
+    "build-prod": "vite build --mode prod",
     "preview": "vite preview --port 4173",
     "test:unit": "vitest --environment jsdom",
     "test:e2e": "start-server-and-test preview http://localhost:4173/ 'cypress open --e2e'",
@@ -14,12 +17,10 @@
   },
   "dependencies": {
     "@kangc/v-md-editor": "^2.3.15",
-    "@wangeditor/editor": "^5.1.18",
-    "@wangeditor/editor-for-vue": "^5.1.12",
     "axios": "^0.27.2",
     "element-plus": "^2.2.16",
-    "mavon-editor": "^2.10.4",
     "pinia": "^2.0.21",
+    "qs": "^6.11.0",
     "vue": "^3.2.38",
     "vue-router": "^4.1.5"
   },
@@ -27,7 +28,7 @@
     "@rushstack/eslint-patch": "^1.1.4",
     "@types/js-yaml": "^4.0.5",
     "@types/jsdom": "^20.0.0",
-    "@types/node": "^16.11.56",
+    "@types/node": "^16.11.64",
     "@vitejs/plugin-vue": "^3.0.3",
     "@vitejs/plugin-vue-jsx": "^2.0.1",
     "@vue/eslint-config-prettier": "^7.0.0",

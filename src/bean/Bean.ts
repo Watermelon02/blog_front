@@ -41,3 +41,22 @@ export class Result<T>{
         this.data = data
     }
 }
+
+export class User{
+    userId:number;
+    email:string;
+    avatarUrl:string;
+    name:string;
+    blog:string;
+    password:string;
+    role:string;
+    constructor(userId:number,email:string,avaterUrl:string,name:string,blog:string,password:string,role:string){
+        this.userId = userId;
+        this.email = email;
+        this.avatarUrl = avaterUrl;
+        this.name = name;
+        this.blog = blog;
+        this.password = password;
+        this.role = role;
+    }
+}

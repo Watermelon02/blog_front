@@ -3,7 +3,7 @@
     <el-card style="height: 90vh;width: 75vw;border-radius: 10px;padding: 0px;display: flex;
     flex-direction: column;
     align-items: center;
-    margin: auto;margin-top: 5vh;" shadow="always" v-if="result != null">
+    margin: auto;margin-top: 5vh;padding: 5vh;" shadow="always" v-if="result != null">
         <img :src="result?.data.cover" class="image"
             style="height:auto ;width:75vw;display: block;object-fit: cover;margin-top: -10vh;" />
         <div style="padding: 13px;">
@@ -36,13 +36,13 @@
 <script setup lang = 'ts'>
 import { useRoute } from 'vue-router'
 import { onMounted, ref, watch } from 'vue'
-import axios from "axios";
 import type { Passage, Result } from '@/bean/Bean';
+import { service } from '@/main';
 
 const route = useRoute()
 const result = ref<Result<Passage>>()
 onMounted(async () => {
-    axios.get<Result<Passage>>('http://localhost:8080/passage/selectById', { params: { passage_id: route.query.passage_id } }).then(function (response) {
+    service.get<Result<Passage>>(import.meta.env.VITE_HOST+'/passage/selectById', { params: { passage_id: route.query.passage_id } }).then(function (response) {
         if (response.status = 200) {
             result.value = response.data
         }

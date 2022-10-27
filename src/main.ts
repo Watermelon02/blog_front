@@ -1,5 +1,6 @@
-import { createApp } from 'vue'
+import { createApp, ref } from 'vue'
 import { createPinia } from 'pinia'
+import type {User} from './bean/Bean'
 
 import App from './App.vue'
 import router from './router'
@@ -23,6 +24,13 @@ import '@kangc/v-md-editor/lib/theme/style/github.css';
 
 // highlightjs
 import hljs from 'highlight.js';
+import axios from 'axios';
+export const service = axios.create({ baseURL: `http://${import.meta.env.BASE_URL}`, headers:{
+  'Content-Type': "application/json;charset=utf-8",
+  'Access-Control-Allow-Credentials':"true",
+  'crossDomain': 'true'
+},withCredentials: true, timeout: 5000 })
+export let user = ref<User>() ;
 
 VMdPreview.use(githubTheme, {
   Hljs: hljs,

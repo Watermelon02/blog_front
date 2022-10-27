@@ -1,5 +1,5 @@
 <template>
-    <div class="anniu" style="position: absolute;margin-top: 95vh;transform: rotateZ(180deg);"></div>
+    <div class="anniu" style="position: absolute;margin-top: 95vh;transform: rotateZ(180deg);" ></div>
 </template>
 <style>
     * {
@@ -9,7 +9,7 @@
     }
 
     body {
-      height: 100vh;
+
       display: flex;
       align-items: center;
       justify-content: center;

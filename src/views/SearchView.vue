@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Passage, Result } from '@/bean/Bean';
-import axios from 'axios';
+import { service } from '@/main';
 import {  onMounted, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 
@@ -12,7 +12,7 @@ var lastKeyword = ""
 const fetchPassagesLike = (keyword: string) => {
     if (keyword != lastKeyword) {
         lastKeyword = keyword
-        axios.get<Result<Array<Passage>>>("http://localhost:8080/passage/selectLike", { params: { curPage: currentPage.value, keyword: keyword } })
+        service.get<Result<Array<Passage>>>(import.meta.env.VITE_HOST+"/passage/selectLike", { params: { curPage: currentPage.value, keyword: keyword } })
             .then((response) => {
                 total.value = response.data.total
                 passages.value = passages.value.concat(response.data.data)
@@ -67,7 +67,7 @@ function brightenKeyword(val: string, keyword: string) {
         <form>
             <input placeholder="请输入关键字" v-model="input" />
             <button class="search-button">
-                <img src="@/assets/search.svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2"
+                <img src="/search.svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2"
                     stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" />
             </button>
         </form>

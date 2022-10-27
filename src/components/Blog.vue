@@ -4,6 +4,8 @@ import type { Passage } from '../bean/Bean'
 const router = useRouter()
 const passage = defineProps<{ data: Passage }>()
 
+
+
 function pushWithId() {
     router.push({
         name: 'passage',
@@ -16,7 +18,7 @@ function pushWithId() {
 
 <template>
     <el-card class="blog-card" :body-style="{ padding: '0px' }" shadow="hover">
-        <a :href="'/passage?passage_id='+passage.data.passage_id"><img :src="passage.data.cover" class="image" /></a>
+        <a v-on:click="pushWithId"><img :src="passage.data.cover" class="image" /></a>
         <div style="padding: 14px">
             <a @click="pushWithId">
                 <h1>{{passage.data.title}}</h1>

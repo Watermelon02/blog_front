@@ -20,8 +20,8 @@ function search() {
     <aside class="side-bar" style="align-items: right;">
 
         <div class="avater">
-            <img src="@/assets/logo.svg" width="40" height="40" />
-            <img class="ring_right" src="@/assets/ring.svg" width="120" height="120" />
+            <img src="/logo.svg" width="40" height="40" />
+            <img class="ring_right" src="/ring.svg" width="120" height="120" />
         </div>
         <div style="margin-top: 8vh;align-self: start;">
             <h2 class="self-description" style="color: #BABABA;">搜索文章</h2>
@@ -30,7 +30,7 @@ function search() {
             <form>
                 <input placeholder="请输入关键字" v-model="input" @keydown.enter="search"/>
                 <button class="search-button" @click="search">
-                    <img src="@/assets/search.svg" width="16" height="16" viewBox="0 0 24 24" stroke-width="2"
+                    <img src="/search.svg" width="16" height="16" viewBox="0 0 24 24" stroke-width="2"
                         stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" />
                 </button>
             </form>
@@ -42,7 +42,7 @@ function search() {
             <TransitionGroup>
                 <el-card class="btn neo" v-for="tag in tags" :key="tag.tag_id"
                     style="background-color: #ffffff;color: #35495E;background-clip: border-box;text-transform: uppercase;border-style: hidden;text-align: center;">
-                    <a style="font-weight: bold;font-size:10px;color: #BABABA;">{{tag.name}}</a>
+                    <a style="font-weight: bold;font-size:10px;color: #BABABA;" :href="'/tagSearch?tag_id='+tag.tag_id">{{tag.name}}</a>
                 </el-card>
             </TransitionGroup>
         </div>

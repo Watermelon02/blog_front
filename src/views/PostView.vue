@@ -1,16 +1,12 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import type { UploadInstance, UploadProps, UploadRawFile } from 'element-plus'
+import type { UploadFile, UploadFiles, UploadInstance, UploadProps, UploadRawFile } from 'element-plus'
 import { genFileId } from 'element-plus'
-import axios from 'axios'
 import router from '@/router';
-const instance = axios.create({
-    baseURL: 'http://localhost:8080/passage/',
-    timeout: 5000
-})
+import { service } from '@/main';
+let host = ref(import.meta.env.VITE_HOST)
 const uploadRef = ref<UploadInstance>()
 
-var cover: string
 const title = ref('')
 const sub_title = ref('')
 const content = ref('')
@@ -20,21 +16,29 @@ const dialogVisible = ref(false)
 const checkboxGroup = ref(["1"])
 const tags = [{ name: '生活', id: "1" }, { name: '安卓', id: "2" }, { name: '前端', id: "3" }, { name: '后端', id: "4" }]
 
-const submitUpload = async() => {
+const uploadImage = async () => {
     uploadRef.value!.submit()
+}
+
+async function uploadPassage(response: any, uploadFile: UploadFile, uploadFiles: UploadFiles){
     const formData = new FormData()
     formData.append('title', title.value)
     formData.append('sub_title', sub_title.value)
     formData.append('content', content.value)
-    for(let i = 0;i<checkboxGroup.value.length;i++){
+    formData.append('cover', response)
+    for (let i = 0; i < checkboxGroup.value.length; i++) {
         formData.append('tags', checkboxGroup.value[i])
     }
-    instance.post('/post', formData, {
+    service.post(`${import.meta.env.VITE_HOST}/passage/post`, formData, {
         headers: {
             'Content-Type': 'multipart/form-data'
         }
+    }).catch((response) => {
+        tip.value = response
+    }).then((respongse)=>{
+        //成功返回主页
+        router.push("")
     })
-    router.push("/home")
 }
 
 const handleError: UploadProps['onError'] = (error, uploadFile, uploadFiles) => {
@@ -72,10 +76,9 @@ const handlePictureCardPreview: UploadProps['onPreview'] = (uploadFile) => {
                 </div>
             </el-col>
             <el-col :span="12">
-                <el-upload ref="uploadRef" class="upload" action="http://localhost:8080/image/upload"
-                    :auto-upload="false" :limit="1" :on-exceed="handleExceed" :on-preview="handlePictureCardPreview"
-                     :on-error="handleError" list-type="picture-card"
-                    style="height: 15vh;margin-bottom: 5vh;">
+                <el-upload ref="uploadRef" class="upload" :with-credentials ="true" :action="`${host}/image/upload`" :auto-upload="false"
+                    :limit="1" :on-exceed="handleExceed" :on-preview="handlePictureCardPreview" :on-error="handleError" :on-success="uploadPassage"
+                    list-type="picture-card" style="height: 15vh;margin-bottom: 5vh;">
                     <template #trigger>
                         <el-button type="primary" style="--el-color-primary: #35495E">+</el-button>
                     </template>
@@ -91,7 +94,7 @@ const handlePictureCardPreview: UploadProps['onPreview'] = (uploadFile) => {
 
         <v-md-editor v-model="content" height="65vh" />
 
-        <el-button class="ml-3" type="success" @click="submitUpload"
+        <el-button class="ml-3" type="success" @click="uploadImage"
             style="height: 5vh;margin-top: 5vh;background-color: #40B882;">
             发布
         </el-button>
