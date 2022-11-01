@@ -43,7 +43,7 @@ watch(currentPage, async (newPage, oldPage) => {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: auto;
+    margin: 16px;
 
 }
 

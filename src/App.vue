@@ -3,11 +3,11 @@ import { RouterLink, RouterView } from 'vue-router'
 import SideBar from './components/SideBar.vue'
 import TagBar from './components/TagBar.vue'
 import { useRoute } from 'vue-router'
-import { ref, watch } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import type { User, Result } from '@/bean/Bean'
 import { service, user } from './main';
-import { replace } from 'lodash';
-import router from './router';
+import { ElMessage } from 'element-plus';
+import { } from 'vue'
 const route = useRoute()
 const routerSpan = ref(16)
 
@@ -18,19 +18,24 @@ watch(route, (() => {
     routerSpan.value = 16
   }
 }))
-function callback() {//点击侧边栏CyberButton后的回调
+onMounted(() => {
+  const token = localStorage.getItem('user')
+  if (token != null) {
+    user.value = JSON.parse(token)
+  }
+})
+function callback() {//点击侧边栏CyberButton后的回调,根据是否登录处理不同情况
   if (user.value == null) {
     centerDialogVisible.value = true
   } else {
-    if (user.value.role == "admin") {
-      router.push({
-        name: 'post'
-      })
-    } else {
-      router.push({
-        name: 'logout'
-      })
-    }
+    service.get<Result<String>>(import.meta.env.VITE_HOST + '/user/logout').then((response) => {
+      if (response.data.status == 200) {
+        localStorage.removeItem('user')
+        ElMessage({ message: '登出成功', type: 'success' })
+      } else {
+        ElMessage.error('登出失败，还没有登录')
+      }
+    })
   }
 }
 const centerDialogVisible = ref(false)
@@ -45,10 +50,11 @@ function login() {
   }).then((response) => {
     if (response.data.status == 200) {
       user.value = response.data.data
+      localStorage.setItem('user', JSON.stringify(response.data.data))
       centerDialogVisible.value = false
     } else {
       password.value = ""
-      passwordPlaceHolder.value = "登录失败"
+      ElMessage.error("登录失败")
     }
   })
 }
@@ -63,7 +69,7 @@ function login() {
       <el-col :span="routerSpan">
         <RouterView />
       </el-col>
-      <el-col :span="4" v-if="route.path!='/search' && route.path!='/passage' && route.path != '/tagSearch'">
+      <el-col :span="4" v-if="route.path != '/search' && route.path != '/passage' && route.path != '/tagSearch'">
         <TagBar />
       </el-col>
     </el-row>

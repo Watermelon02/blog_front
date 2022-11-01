@@ -58,7 +58,7 @@ const handlePictureCardPreview: UploadProps['onPreview'] = (uploadFile) => {
 }
 </script>
 <template>
-    <el-card style="width: 100%;height: 100%;border-radius: 10px" shadow="always">
+    <el-card style="width: 90%;height: 100%;border-radius: 10px;margin: 16px;" shadow="always">
         <el-row>
             <el-col :span="12">
                 <el-input v-model="title" placeholder="" size="large">

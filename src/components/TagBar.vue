@@ -41,7 +41,7 @@ function search() {
         <div style="display: flex;flex-wrap: wrap;gap: 20px;align-self: start;margin-top: 2vh;">
             <TransitionGroup>
                 <el-card class="btn neo" v-for="tag in tags" :key="tag.tag_id"
-                    style="background-color: #ffffff;color: #35495E;background-clip: border-box;text-transform: uppercase;border-style: hidden;text-align: center;">
+                    style="border-radius: 20%;background-color: #ffffff;color: #35495E;background-clip: border-box;text-transform: uppercase;border-style: hidden;text-align: center;">
                     <a style="font-weight: bold;font-size:10px;color: #BABABA;" :href="'/tagSearch?tag_id='+tag.tag_id">{{tag.name}}</a>
                 </el-card>
             </TransitionGroup>

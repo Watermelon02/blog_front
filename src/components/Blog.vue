@@ -43,7 +43,7 @@ function pushWithId() {
                         </a>
                     </el-col>
                 </el-row>
-                <h5 style="color: #999;">字数:212</h5>
+                <h5 style="color: #999;">字数:{{passage.data.content.length}}</h5>
             </div>
         </div>
     </el-card>
@@ -73,6 +73,6 @@ function pushWithId() {
     width: 60vw;
     height: 25vh;
     display: block;
-    object-fit: cover;
+    object-fit: scale-down;
 }
 </style>

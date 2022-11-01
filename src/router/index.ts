@@ -1,3 +1,5 @@
+import { user } from '@/main'
+import { ElMessage } from 'element-plus'
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 
@@ -43,6 +45,13 @@ const router = createRouter({
       component: () => import('../views/TagSearchView.vue'),
     }
   ]
+})
+// 路由拦截非管理员进入post界面
+router.beforeEach((to, from, next) => {
+  if (to.path === '/post' && user.value?.role !== 'admin') {
+    return next('/')
+    ElMessage.error('该功能仅限管理员使用')
+  } else next()
 })
 
 export default router

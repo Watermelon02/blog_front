@@ -52,8 +52,8 @@ function brightenKeyword(val: string, keyword: string) {
         const index = val.indexOf(keyword)
         var res: string = val
         //截断过长的文本
-        if (index > 100) {
-            res = val.substring(index - 50, index + 50)
+        if (index > 60) {
+            res = val.substring(index - 30, index + 30)
         }
         res = res.replace(Reg, `<span style="color: #FF3939;">${keyword}</span>`)
         // console.log(res); 
@@ -63,7 +63,7 @@ function brightenKeyword(val: string, keyword: string) {
 }
 </script>
 <template>
-    <el-card style="width: 100%;border-radius: 10px;margin-top: 5vh;" shadow="always">
+    <el-card style="width: 100%;border-radius: 10px;margin: 16px;" shadow="always">
         <form>
             <input placeholder="请输入关键字" v-model="input" />
             <button class="search-button">
@@ -73,18 +73,18 @@ function brightenKeyword(val: string, keyword: string) {
         </form>
     </el-card>
     <Transition>
-        <el-card style="width: 100%;border-radius: 10px;margin-top: 20px;" shadow="always" v-if="currentPage!=0">
+        <el-card style="width: 100%;border-radius: 10px;margin-top: 20px;margin: 16px;" shadow="always" v-if="currentPage!=0">
             <p style="color: #BABABA;">共 {{total}} 个搜索结果</p>
             <ul v-infinite-scroll="loadPassages" class="infinite-list" style="overflow: auto">
                 <li v-for="passage in passages" :key="passage.passage_id" class="infinite-list-item"
                     style="text-align: left;">
-                    <a :href="'/passage?passage_id='+passage.passage_id">
+                    <a :href="'/passage?passage_id='+passage.passage_id" >
                         <el-col>
                             <el-row :span="12">
                                 <h2 style="color: #35495E;" v-html="brightenKeyword(passage.title,input)"></h2>
                             </el-row>
                             <el-row :span="12">
-                                <h3 style="color: #cdcdcd;" v-html="brightenKeyword(passage.content,input)"></h3>
+                                <h5 style="color: #cdcdcd;" v-html="brightenKeyword(passage.content,input)"></h5>
                             </el-row>
                         </el-col>
                     </a>
