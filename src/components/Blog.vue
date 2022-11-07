@@ -5,12 +5,11 @@ const router = useRouter()
 const passage = defineProps<{ data: Passage }>()
 
 
-
 function pushWithId() {
     router.push({
         name: 'passage',
         query: {
-            passage_id: passage.data?.passage_id
+            passageId: passage.data?.passageId
         }
     })
 }
@@ -21,29 +20,28 @@ function pushWithId() {
         <a v-on:click="pushWithId"><img :src="passage.data.cover" class="image" /></a>
         <div style="padding: 14px">
             <a @click="pushWithId">
-                <h1>{{passage.data.title}}</h1>
+                <h1>{{ passage.data.title }}</h1>
             </a>
-            <h2>{{passage.data.sub_title}}</h2>
+            <h2>{{ passage.data.subTitle }}</h2>
             <el-col>
                 <el-row>
                     <el-col :span="12">
-                        <h2 class="time">{{passage.data.create_time}}</h2>
+                        <h2 class="time">{{ passage.data.createTime }}</h2>
                     </el-col>
                     <el-col :span="12">
-                        <h3 class="time">{{passage.data.update_time}}</h3>
+                        <h3 class="time">{{ passage.data.updateTime }}</h3>
                     </el-col>
                 </el-row>
             </el-col>
             <div class="bottom">
                 <el-row>
-                    <el-col v-for="tag in passage.data.tags" :span="24/passage.data.tags!.length">
-                        <a :href="'/tagSearch?tag_id='+tag?.tag_id">
-                            <el-tag size="large" type="danger" v-if="tag!=null" style="margin-right: 10px;">{{tag.name}}
+                    <el-col v-for="tag in passage.data.tags" :span="24 / passage.data.tags!.length">
+                        <a :href="'/tagSearch?tagId=' + tag?.tagId">
+                            <el-tag size="large" type="danger" v-if="tag != null" style="margin-right: 10px;">{{ tag.name }}
                             </el-tag>
                         </a>
                     </el-col>
                 </el-row>
-                <h5 style="color: #999;">字数:{{passage.data.content.length}}</h5>
             </div>
         </div>
     </el-card>

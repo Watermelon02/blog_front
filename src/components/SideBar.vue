@@ -15,8 +15,8 @@ class Route {
     }
 }
 // 根据是否登录来决定是否显示发布按钮
-const pages_visitor = ref<Route[]>([new Route('主页', '', homeIcon), new Route('关于', 'about', aboutIcon), new Route('搜索', 'search', searchIcon)])
-const pages_admin = ref<Route[]>([new Route('主页', '', homeIcon), new Route('关于', 'about', aboutIcon), new Route('搜索', 'search', searchIcon), new Route('发布', 'post', postIcon)])
+const pagesVisitor = ref<Route[]>([new Route('主页', '', homeIcon), new Route('关于', 'about', aboutIcon), new Route('搜索', 'search', searchIcon)])
+const pagesAdmin = ref<Route[]>([new Route('主页', '', homeIcon), new Route('关于', 'about', aboutIcon), new Route('搜索', 'search', searchIcon), new Route('发布', 'post', postIcon)])
 </script>
 
 <template>
@@ -38,13 +38,13 @@ const pages_admin = ref<Route[]>([new Route('主页', '', homeIcon), new Route('
                     height="20" style="margin-right: 2vw;" />
             </RouterLink>
 
-            <div v-if="user==null || user.role !== 'admin'" v-for="page in pages_visitor">
+            <div v-if="user == null || user.role !== 'admin'" v-for="page in pagesVisitor">
 
                 <RouterLink :to="`/${page.route}`" style="display: inline-flex;margin-top: 1em;margin-bottom: 1em;">
                     <img :src="page.img" width="20" height="20" style="margin-right: 2vw" />{{ page.name }}
                 </RouterLink>
             </div>
-            <div v-if="user!=null && user.role === 'admin'" v-for="page in pages_admin">
+            <div v-if="user != null && user.role === 'admin'" v-for="page in pagesAdmin">
 
                 <RouterLink :to="`/${page.route}`" style="display: inline-flex;margin-top: 1em;margin-bottom: 1em;">
                     <img :src="page.img" width="20" height="20" style="margin-right: 2vw" />{{ page.name }}

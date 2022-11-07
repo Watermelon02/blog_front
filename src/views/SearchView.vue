@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Passage, Result } from '@/bean/Bean';
 import { service } from '@/main';
-import {  onMounted, ref, watch } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 
 const input = ref('')
@@ -12,14 +12,14 @@ var lastKeyword = ""
 const fetchPassagesLike = (keyword: string) => {
     if (keyword != lastKeyword) {
         lastKeyword = keyword
-        service.get<Result<Array<Passage>>>(import.meta.env.VITE_HOST+"/passage/selectLike", { params: { curPage: currentPage.value, keyword: keyword } })
+        service.get<Result<Array<Passage>>>(import.meta.env.VITE_HOST + '/passage/selectLike', { params: { currentPage: currentPage.value, keyword: keyword } })
             .then((response) => {
                 total.value = response.data.total
                 passages.value = passages.value.concat(response.data.data)
             })
     }
 }
-const loadPassages = () => {
+const loadPassages = async () => {
     if (currentPage.value < total.value / 6 || total.value == 0) {
         currentPage.value += 1
         fetchPassagesLike(input.value)
@@ -32,9 +32,9 @@ watch(input, (() => {
         loadPassages()
     }
 }))
-onMounted(()=>{
+onMounted(() => {
     const keyword = useRoute().query.keyword
-    if(keyword!=null){
+    if (keyword != null) {
         input.value = keyword as string
     }
 })
@@ -67,24 +67,25 @@ function brightenKeyword(val: string, keyword: string) {
         <form>
             <input placeholder="请输入关键字" v-model="input" />
             <button class="search-button">
-                <img src="/search.svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2"
-                    stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+                <img src="/search.svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+                    fill="none" stroke-linecap="round" stroke-linejoin="round" />
             </button>
         </form>
     </el-card>
     <Transition>
-        <el-card style="width: 100%;border-radius: 10px;margin-top: 20px;margin: 16px;" shadow="always" v-if="currentPage!=0">
-            <p style="color: #BABABA;">共 {{total}} 个搜索结果</p>
+        <el-card style="width: 100%;border-radius: 10px;margin-top: 20px;margin: 16px;" shadow="always"
+            v-if="currentPage != 0">
+            <p style="color: #BABABA;">共 {{ total }} 个搜索结果</p>
             <ul v-infinite-scroll="loadPassages" class="infinite-list" style="overflow: auto">
-                <li v-for="passage in passages" :key="passage.passage_id" class="infinite-list-item"
+                <li v-for="passage in passages" :key="passage.passageId" class="infinite-list-item"
                     style="text-align: left;">
-                    <a :href="'/passage?passage_id='+passage.passage_id" >
+                    <a :href="'/passage?passageId=' + passage.passageId">
                         <el-col>
                             <el-row :span="12">
-                                <h2 style="color: #35495E;" v-html="brightenKeyword(passage.title,input)"></h2>
+                                <h2 style="color: #35495E;" v-html="brightenKeyword(passage.title, input)"></h2>
                             </el-row>
                             <el-row :span="12">
-                                <h5 style="color: #cdcdcd;" v-html="brightenKeyword(passage.content,input)"></h5>
+                                <h5 style="color: #cdcdcd;" v-html="brightenKeyword(passage.content, input)"></h5>
                             </el-row>
                         </el-col>
                     </a>

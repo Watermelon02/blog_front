@@ -10,8 +10,8 @@ function search() {
         query: {
             keyword: input.value
         }
-})
- window.open(url.href, '_blank')
+    })
+    window.open(url.href, '_blank')
 
 }
 </script>
@@ -28,7 +28,7 @@ function search() {
         </div>
         <el-card style="width: 100%;border-radius: 10px;margin-top: 2vh;" shadow="always">
             <form>
-                <input placeholder="请输入关键字" v-model="input" @keydown.enter="search"/>
+                <input placeholder="请输入关键字" v-model="input" @keydown.enter="search" />
                 <button class="search-button" @click="search">
                     <img src="/search.svg" width="16" height="16" viewBox="0 0 24 24" stroke-width="2"
                         stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" />
@@ -40,9 +40,10 @@ function search() {
         </div>
         <div style="display: flex;flex-wrap: wrap;gap: 20px;align-self: start;margin-top: 2vh;">
             <TransitionGroup>
-                <el-card class="btn neo" v-for="tag in tags" :key="tag.tag_id"
+                <el-card class="btn neo" v-for="tag in tags" :key="tag.tagId"
                     style="border-radius: 20%;background-color: #ffffff;color: #35495E;background-clip: border-box;text-transform: uppercase;border-style: hidden;text-align: center;">
-                    <a style="font-weight: bold;font-size:10px;color: #BABABA;" :href="'/tagSearch?tag_id='+tag.tag_id">{{tag.name}}</a>
+                    <a style="font-weight: bold;font-size:10px;color: #BABABA;"
+                        :href="'/tagSearch?tagId=' + tag.tagId">{{ tag.name }}</a>
                 </el-card>
             </TransitionGroup>
         </div>

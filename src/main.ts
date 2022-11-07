@@ -26,7 +26,7 @@ import '@kangc/v-md-editor/lib/theme/style/github.css';
 import hljs from 'highlight.js';
 import axios from 'axios';
 import { ElMessage } from 'element-plus'
-export const service = axios.create({ baseURL: `http://${import.meta.env.BASE_URL}`, headers:{
+export const service = axios.create({ baseURL: `https://${import.meta.env.BASE_URL}`, headers:{
   'Content-Type': "application/json;charset=utf-8",
   'Access-Control-Allow-Credentials':"true",
   'Access-Control-Allow-Origin':`${import.meta.env.ORIGIN}`,

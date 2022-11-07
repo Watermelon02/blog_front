@@ -8,7 +8,7 @@ let host = ref(import.meta.env.VITE_HOST)
 const uploadRef = ref<UploadInstance>()
 
 const title = ref('')
-const sub_title = ref('')
+const subTitle = ref('')
 const content = ref('')
 const tip = ref('')
 const dialogImageUrl = ref('')
@@ -20,10 +20,10 @@ const uploadImage = async () => {
     uploadRef.value!.submit()
 }
 
-async function uploadPassage(response: any, uploadFile: UploadFile, uploadFiles: UploadFiles){
+async function uploadPassage(response: any, uploadFile: UploadFile, uploadFiles: UploadFiles) {
     const formData = new FormData()
     formData.append('title', title.value)
-    formData.append('sub_title', sub_title.value)
+    formData.append('subTitle', subTitle.value)
     formData.append('content', content.value)
     formData.append('cover', response)
     for (let i = 0; i < checkboxGroup.value.length; i++) {
@@ -35,7 +35,7 @@ async function uploadPassage(response: any, uploadFile: UploadFile, uploadFiles:
         }
     }).catch((response) => {
         tip.value = response
-    }).then((respongse)=>{
+    }).then((respongse) => {
         //成功返回主页
         router.push("")
     })
@@ -64,7 +64,7 @@ const handlePictureCardPreview: UploadProps['onPreview'] = (uploadFile) => {
                 <el-input v-model="title" placeholder="" size="large">
                     <template #prepend>标题</template>
                 </el-input>
-                <el-input v-model="sub_title" placeholder="" size="large">
+                <el-input v-model="subTitle" placeholder="" size="large">
                     <template #prepend>子标</template>
                 </el-input>
                 <div>
@@ -76,16 +76,17 @@ const handlePictureCardPreview: UploadProps['onPreview'] = (uploadFile) => {
                 </div>
             </el-col>
             <el-col :span="12">
-                <el-upload ref="uploadRef" class="upload" :with-credentials ="true" :action="`${host}/image/upload`" :auto-upload="false"
-                    :limit="1" :on-exceed="handleExceed" :on-preview="handlePictureCardPreview" :on-error="handleError" :on-success="uploadPassage"
-                    list-type="picture-card" style="height: 15vh;margin-bottom: 5vh;">
+                <el-upload ref="uploadRef" class="upload" :with-credentials="true" :action="`${host}/image/upload`"
+                    :auto-upload="false" :limit="1" :on-exceed="handleExceed" :on-preview="handlePictureCardPreview"
+                    :on-error="handleError" :on-success="uploadPassage" list-type="picture-card"
+                    style="height: 15vh;margin-bottom: 5vh;">
                     <template #trigger>
                         <el-button type="primary" style="--el-color-primary: #35495E">+</el-button>
                     </template>
 
                     <template #tip>
                         <div class="el-upload__tip">
-                            {{tip}}
+                            {{ tip }}
                         </div>
                     </template>
                 </el-upload>

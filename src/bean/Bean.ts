@@ -1,31 +1,31 @@
 export class Tag {
-    constructor(public name: string, public tag_id: number) {
+    constructor(public name: string, public tagId: number) {
         this.name = name
-        this.tag_id = tag_id
+        this.tagId = tagId
     }
 }
 
 export class Passage {
-    passage_id: number;
+    passageId: number;
     title: string;
-    sub_title: string;
+    subTitle: string;
     cover: string;
     tags: Array<Tag>;
-    create_time: string;
-    update_time: string;
-    content:string
-    constructor(passage_id: number, title: string,
-        sub_title: string,
+    createTime: string;
+    updateTime: string;
+    content: string
+    constructor(passageId: number, title: string,
+        subTitle: string,
         cover: string,
-        create_time: string,
-        update_time: string,
-        tags: Array<Tag>,content:string) {
-        this.passage_id = passage_id
+        createTime: string,
+        updateTime: string,
+        tags: Array<Tag>, content: string) {
+        this.passageId = passageId
         this.title = title
-        this.sub_title = sub_title
+        this.subTitle = subTitle
         this.cover = cover
-        this.create_time = create_time
-        this.update_time = update_time
+        this.createTime = createTime
+        this.updateTime = updateTime
         this.tags = tags
         this.content = content
     }
@@ -42,15 +42,15 @@ export class Result<T>{
     }
 }
 
-export class User{
-    userId:number;
-    email:string;
-    avatarUrl:string;
-    name:string;
-    blog:string;
-    password:string;
-    role:string;
-    constructor(userId:number,email:string,avaterUrl:string,name:string,blog:string,password:string,role:string){
+export class User {
+    userId: number;
+    email: string;
+    avatarUrl: string;
+    name: string;
+    blog: string;
+    password: string;
+    role: string;
+    constructor(userId: number, email: string, avaterUrl: string, name: string, blog: string, password: string, role: string) {
         this.userId = userId;
         this.email = email;
         this.avatarUrl = avaterUrl;
@@ -58,5 +58,24 @@ export class User{
         this.blog = blog;
         this.password = password;
         this.role = role;
+    }
+}
+
+export class Comment {
+    commentId: number;
+    passageId: number;
+    userId: number;
+    content: string;
+    createTime: string;
+    name: string;
+    avatarUrl: string;
+    constructor(commentId: number, passageId: number, userId: number, content: string, createTime: string, name: string, avatarUrl: string) {
+        this.commentId = commentId;
+        this.passageId = passageId;
+        this.userId = userId;
+        this.content = content;
+        this.createTime = createTime;
+        this.name = name;
+        this.avatarUrl = avatarUrl
     }
 }

@@ -11,8 +11,9 @@ const getPassages = async () => {
     console.log(import.meta.env.VITE_HOST)
     let url = `${import.meta.env.VITE_HOST}/passage/select`
     service.get<Result<Array<Passage>>>(url, {
-        params: { curPage: currentPage.value }
+        params: { currentPage: currentPage.value }
     }).then(function (response) {
+
         if (response.status = 200) {
             result.value = response.data
         }
@@ -27,12 +28,12 @@ watch(currentPage, async (newPage, oldPage) => {
 </script>
 
 <template>
-    <div class="article-list" >
+    <div class="article-list">
         <TransitionGroup name="list" tag="ul">
-            <Blog v-for="p in result!.data" :data="p" :key="p.passage_id" />
+            <Blog v-for="p in result!.data" :data="p" :key="p.passageId" />
         </TransitionGroup>
         <el-pagination color="#ffffff" background layout="prev, pager, next" :total="result.total/4"
-            v-model:currentPage="currentPage" v-if="result!.total>0" />
+            v-model:currentPage="currentPage" v-if="result!.total > 0" />
 
     </div>
 </template>
@@ -43,7 +44,7 @@ watch(currentPage, async (newPage, oldPage) => {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 16px;
+    margin: auto;
 
 }
 
