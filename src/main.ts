@@ -58,9 +58,4 @@ VMdEditor.use(vuepressTheme, {
 
 const app = createApp(App)
 
-app.use(VMdPreview)
-app.use(VMdEditor);
-app.use(createPinia())
-app.use(router)
-
-app.mount('#app')
+app.use(VMdPreview).use(VMdEditor).use(createPinia()).use(router).mount('#app')
