@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { useRouter } from 'vue-router'
 import type { Passage } from '../bean/Bean'
+import { isMobile } from "@/main";
 const router = useRouter()
 const passage = defineProps<{ data: Passage }>()
 
@@ -16,8 +17,12 @@ function pushWithId() {
 </script>
 
 <template>
-    <el-card class="blog-card" :body-style="{ padding: '0px' }" shadow="hover">
-        <a v-on:click="pushWithId"><img :src="passage.data.cover" class="image" /></a>
+    <div class="avater-top" v-if="isMobile">
+        <img src="/logo.svg" width="20" height="20" />
+        <img class="ring_right" src="/ring.svg" width="60" height="60" />
+    </div>
+    <el-card :class="isMobile ? 'blog-card-mobile' : 'blog-card-pc'" :body-style="{ padding: '0px' }" shadow="hover">
+        <a v-on:click="pushWithId"><img :src="passage.data.cover" :class="isMobile ? 'image-mobile' : 'image-pc'" /></a>
         <div style="padding: 14px">
             <a @click="pushWithId">
                 <h1>{{ passage.data.title }}</h1>
@@ -37,7 +42,9 @@ function pushWithId() {
                 <el-row>
                     <el-col v-for="tag in passage.data.tags" :span="24 / passage.data.tags!.length">
                         <a :href="'/tagSearch?tagId=' + tag?.tagId">
-                            <el-tag size="large" type="danger" v-if="tag != null" style="margin-right: 10px;">{{ tag.name }}
+                            <el-tag size="large" type="danger" v-if="tag != null" style="margin-right: 10px;">{{
+                                    tag.name
+                            }}
                             </el-tag>
                         </a>
                     </el-col>
@@ -48,8 +55,14 @@ function pushWithId() {
 </template>
   
 <style>
-.blog-card {
+.blog-card-pc {
     width: 60vw;
+    border-radius: 20px;
+    margin-bottom: 5vh;
+}
+
+.blog-card-mobile {
+    width: 90vw;
     border-radius: 20px;
     margin-bottom: 5vh;
 }
@@ -67,10 +80,24 @@ function pushWithId() {
     align-items: center;
 }
 
-.image {
+.image-pc {
     width: 60vw;
     height: 25vh;
     display: block;
     object-fit: scale-down;
+}
+
+.image-mobile {
+    width: 90vw;
+    height: 25vh;
+    display: block;
+    object-fit: scale-down;
+}
+
+.avater-top {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 5vh;
 }
 </style>

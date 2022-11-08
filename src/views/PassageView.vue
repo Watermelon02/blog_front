@@ -1,6 +1,6 @@
 <template>
 
-    <el-card style="margin: 16px;">
+    <el-card >
         <div style="padding: 32px;">
             <h1 style="color: #40B882;font-weight: 700;">{{ passageResult?.data.title }}</h1>
             <h2>{{ passageResult?.data.subTitle }}</h2>

@@ -12,14 +12,14 @@ function search() {
         }
     })
     window.open(url.href, '_blank')
-
 }
+
 </script>
     
 <template>
     <aside class="side-bar" style="align-items: right;">
 
-        <div class="avater">
+        <div class="avater-tag">
             <img src="/logo.svg" width="40" height="40" />
             <img class="ring_right" src="/ring.svg" width="120" height="120" />
         </div>
@@ -64,7 +64,7 @@ input {
     border: 0;
 }
 
-.side-bar {
+.side-bar-tag {
     top: 0px;
     position: sticky;
     display: flex;
@@ -78,11 +78,11 @@ input {
     position: absolute;
 }
 
-.avater {
+.avater-tag {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 30%;
+    margin-top: 24%;
 }
 
 @keyframes rotation_right {
