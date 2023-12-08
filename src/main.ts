@@ -28,13 +28,13 @@ import axios from 'axios';
 import { ElMessage } from 'element-plus'
 import ElementPlus from 'element-plus'
 export const service = axios.create({
-  baseURL: `https://${import.meta.env.BASE_URL}`, headers: {
-    'Content-Type': "application/json;charset=utf-8",
-    'Access-Control-Allow-Credentials': "true",
-    'Access-Control-Allow-Origin': `${import.meta.env.ORIGIN}`,
-    'crossDomain': 'true'
-  }, withCredentials: true, timeout: 5000
-})
+  baseURL: `${import.meta.env.ORIGIN}`,
+  headers: {
+    'Content-Type': 'application/json;charset=utf-8',
+  },
+  withCredentials: true,
+  timeout: 5000
+});
 // 添加service对没有登录的拦截器
 service.interceptors.response.use(response => {
   let data = response.data

@@ -62,20 +62,100 @@ export class User {
 }
 
 export class Comment {
-    commentId: number;
-    passageId: number;
-    userId: number;
-    content: string;
-    createTime: string;
-    name: string;
+    id: string;
+    date: string;
+    username: string;
+    userId: string;
     avatarUrl: string;
-    constructor(commentId: number, passageId: number, userId: number, content: string, createTime: string, name: string, avatarUrl: string) {
-        this.commentId = commentId;
-        this.passageId = passageId;
+    favour: string[];
+    content: string;
+    replyInfo: Reply[];
+
+    constructor(
+        id: string,
+        date: string,
+        username: string,
+        userId: string,
+        avatarUrl: string,
+        favour: string[],
+        content: string,
+        replyInfo: Reply[]
+    ) {
+        this.id = id;
+        this.date = date;
+        this.username = username;
         this.userId = userId;
+        this.avatarUrl = avatarUrl;
+        this.favour = favour;
         this.content = content;
-        this.createTime = createTime;
-        this.name = name;
-        this.avatarUrl = avatarUrl
+        this.replyInfo = replyInfo;
     }
 }
+
+export class Reply {
+    id: string;
+    date: string;
+    replyName: string;
+    username: string;
+    userId: string;
+    favour: string[];
+    avatarUrl: string;
+    content: string;
+
+    constructor(
+        id: string,
+        date: string,
+        replyName: string,
+        username: string,
+        userId: string,
+        favour: string[],
+        avatarUrl: string,
+        content: string
+    ) {
+        this.id = id;
+        this.date = date;
+        this.replyName = replyName;
+        this.username = username;
+        this.userId = userId;
+        this.favour = favour;
+        this.avatarUrl = avatarUrl;
+        this.content = content;
+    }
+}
+//   评论区相关bean类
+export class CommentData {
+    comments: Comment[];
+    context: string;
+    replyContext: string;
+    isShowSec: string;
+    isClickId: string;
+    userId: string;
+    username: string;
+    firstIdx: number;
+    secIdx: number;
+    avatarUrl: string;
+    constructor(
+        comments: Comment[],
+        context: string,
+        replyContext: string,
+        isShowSec: string,
+        isClickId: string,
+        userId: string,
+        username: string,
+        firstIdx: number,
+        secIdx: number,
+        avatarUrl: string
+    ) {
+        this.comments = comments;
+        this.context = context;
+        this.replyContext = replyContext;
+        this.isShowSec = isShowSec;
+        this.isClickId = isClickId;
+        this.userId = userId;
+        this.username = username;
+        this.firstIdx = firstIdx;
+        this.secIdx = secIdx;
+        this.avatarUrl = avatarUrl;
+    }
+}
+

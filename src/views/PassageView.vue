@@ -1,48 +1,50 @@
 <template>
+    <div>
+        <img :src="passageResult?.data.cover" class="passage_cover" />
+        <el-card style="margin-bottom: 20px;margin-left: 20px;margin-right: 20px;border-radius: 20px;margin-top: -30px;">
 
-    <el-card >
-        <div style="padding: 32px;">
-            <h1 style="color: #40B882;font-weight: 700;">{{ passageResult?.data.title }}</h1>
-            <h2>{{ passageResult?.data.subTitle }}</h2>
-            <el-row>
-                <el-col :span="12">
-                    <h2 class="time">{{ passageResult?.data.createTime }}</h2>
-                </el-col>
-                <el-col :span="12">
-                    <h3 class="time">{{ passageResult?.data.updateTime }}</h3>
-                </el-col>
-            </el-row>
-        </div>
-        <v-md-preview :text="passageResult?.data.content" />
-        <div class="bottom">
-            <el-row>
-                <el-col v-for="tag in passageResult?.data.tags" :span="24 / passageResult!.data.tags.length">
-                    <el-tag size="large" type="danger" v-if="tag != null" style="">{{ tag.name }}
-                    </el-tag>
-                </el-col>
-            </el-row>
-            <h5 style="color: #999;">字数:{{ passageResult?.data.content.length }}</h5>
-        </div>
-        <ul v-infinite-scroll="loadMoreComments" class="infinite-list" style="overflow: auto">
-            <li v-for="comment in comments" :key="comment.commentId" class="infinite-list-item"
-                style="text-align: left;">
-
-            </li>
-        </ul>
-    </el-card>
+            <div style="margin-left: 30px;margin-right: 10px;margin-bottom: 10px;">
+                <h1 style="color: #40B882;font-weight: 700;">{{ passageResult?.data.title }}</h1>
+                <h2>{{ passageResult?.data.subTitle }}</h2>
+                <el-row>
+                    <el-col :span="12">
+                        <h2 class="time">{{ passageResult?.data.createTime }}</h2>
+                    </el-col>
+                    <el-col :span="12">
+                        <h3 class="time">{{ passageResult?.data.updateTime }}</h3>
+                    </el-col>
+                </el-row>
+            </div>
+            <div class="blur-content">
+                <v-md-preview :text="passageResult?.data.content" />
+            </div>
+            <div class="bottom">
+                <el-row>
+                    <el-col v-for="tag in passageResult?.data.tags" :span="24 / passageResult!.data.tags.length">
+                        <el-tag size="large" type="success" v-if="tag != null" style="">{{ tag.name }}
+                        </el-tag>
+                    </el-col>
+                </el-row>
+                <h5 style="color: #999;">字数:{{ passageResult?.data.content.length }}</h5>
+            </div>
+        </el-card>
+        <CommentView :articleId="route.query.passageId"></CommentView>
+    </div>
 </template>
   
 <script setup lang = 'ts'>
 import { useRoute } from 'vue-router'
 import { onMounted, ref, watch } from 'vue'
-import type { Comment, Passage, Result } from '@/bean/Bean';
+import type { CommentData, Passage, Result } from '@/bean/Bean';
 import { service } from '@/main';
+import CommentView from '../components/Comment.vue'
 
 const route = useRoute()
 const passageResult = ref<Result<Passage>>()
 const currentPage = ref(0)
 const comments = ref<Array<Comment>>()
 const total = ref(0)
+
 onMounted(async () => {
     fetchPassage()
 })
@@ -90,4 +92,15 @@ function loadMoreComments() {
     margin: 10px;
     color: var(--el-color-primary);
 }
+
+.passage_cover {
+    width: 96.5%;
+    left: 20px;
+    height: 25vh;
+    margin-top: 20px;
+    display: block;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
 </style>
