@@ -32,7 +32,7 @@
     </div>
 </template>
   
-<script setup lang = 'ts'>
+<script setup lang="ts">
 import { useRoute } from 'vue-router'
 import { onMounted, ref, watch } from 'vue'
 import type { CommentData, Passage, Result } from '@/bean/Bean';
@@ -70,7 +70,7 @@ function loadMoreComments() {
     }
 }
 </script>
-<style>
+<style scoped>
 .bottom {
     margin-top: 13px;
     line-height: 12px;

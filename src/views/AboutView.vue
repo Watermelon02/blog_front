@@ -14,7 +14,8 @@ const about_me = ref('')
 
 </template>
 
-<style>
+<style scoped>
+
 .blur-container {
   position: relative;
   width: 100%;

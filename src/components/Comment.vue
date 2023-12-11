@@ -1,161 +1,139 @@
 <template>
-  <div class="comment">
-    
+  <div class="comment blur-content">
     <transition-group name="fade">
-    <div
-      class="comment-body"
-      v-for="(item, index) in comments"
-      :key="item.id + '' + index"
-    >
-      <!-- 一级评论 -->
-      <div class="first-comment">
-        <el-avatar :size="40" :src="item.avatarUrl"></el-avatar>
-        <div class="content">
-          <!-- 一级评论用户昵称 -->
-          <h3>{{ item.username }}</h3>
-          <!-- 一级评论发布时间 -->
-          <span>{{ item.date }}</span>
-          <!-- 一级评论评论内容 -->
-          <p>{{ item.content }}</p>
-          <!-- 一级评论评论点赞 -->
-          <div class="comment-right">
-            <i
-              class="el-icon-trophy"
-              @click="giveALike(item, item.id)"
-              :class="item.favour.includes(userId) ? 'active' : ''"
-            ></i>
-            {{ item.favour.length || 0 }}
-            <i class="el-icon-chat-dot-round" @click="isShowSecReply(item.id)"
-              >回复</i
+      <div
+        class="comment-body"
+        v-for="(item, index) in comments"
+        :key="item.id + '' + index"
+      >
+        <!-- 一级评论 -->
+        <div class="first-comment">
+          <el-avatar :size="40" :src="item.avatarUrl"></el-avatar>
+          <div class="content">
+            <!-- 一级评论用户昵称 -->
+            <h3>{{ item.username }}</h3>
+            <!-- 一级评论发布时间 -->
+            <span>{{ item.date }}</span>
+            <!-- 一级评论评论内容 -->
+            <p>{{ item.content }}</p>
+            <!-- 一级评论评论点赞 -->
+            <div class="comment-right">
+              <TrophyButton
+                @click="giveALike(item, item.id)"
+                :class="item.favour.includes(userId) ? 'active' : ''"
+                :data="item.favour.length"
+              />
+              <ReplyButton @click="isShowSecReply(item.id)" />
+              <DeleteCommentButton
+                @click="deleteComment(item.id, undefined)"
+                v-if="userId === item.userId"
+              />
+            </div>
+            <!-- 回复一级评论 -->
+            <Transition name="fade">
+            <div class="reply-comment" v-show="isShowSec === item.id">
+              <el-input
+                :placeholder="placeholderText"
+                class="input"
+                v-model.trim="replyContext"
+                :maxlength="contentLength"
+              ></el-input>
+              <AddCommentButton @click="addComment(item.id, item.username)" />
+            </div>
+          </Transition>
+            <!-- 次级评论 -->
+            <div
+              class="second-comment"
+              v-for="(reply, index) in item.replyInfo"
+              :key="reply.id + '' + index"
             >
-            <i
-              class="el-icon-delete"
-              @click="deleteComment(item.id, undefined)"
-              v-if="userId === item.userId"
-              >删除</i
-            >
-          </div>
-          <!-- 回复一级评论 -->
-          <div class="reply-comment" v-show="isShowSec === item.id">
-            <el-input
-              :placeholder="placeholderText"
-              class="input"
-              v-model.trim="replyContext"
-              :maxlength="contentLength"
-            ></el-input>
-            <el-button
-              type="info"
-              size="mini"
-              class="reply-button"
-              @click="addComment(item.id, item.username)"
-              >回复</el-button
-            >
-          </div>
-          <!-- 次级评论 -->
-          <div
-            class="second-comment"
-            v-for="(reply, index) in item.replyInfo"
-            :key="reply.id + '' + index"
-          >
-            <!-- 次级评论头像,该用户没有头像则显示默认头像 -->
-            <el-avatar :size="40" :src="reply.avatarUrl"></el-avatar>
-            <div class="content">
-              <!-- 次级评论用户昵称 -->
-              <h3>{{ reply.username }}</h3>
-              <!-- 次级评论评论时间 -->
-              <span>{{ reply.date }}</span>
-              <span class="to_reply">{{ reply.username }}</span>
-              回复
-              <span class="to_reply">{{ reply.replyName }}</span
-              >:
-              <p>{{ reply.content }}</p>
-              <!-- 次级评论评论点赞 -->
-              <div class="comment-right">
-                <i
-                  class="el-icon-trophy"
-                  @click="giveALike(reply, item.id)"
-                  :class="reply.favour.includes(userId) ? 'active' : ''"
-                ></i>
-                {{ reply.favour ? reply.favour.length : 0 }}
-                <i
-                  class="el-icon-chat-dot-round"
-                  @click="isShowSecReply(reply.id)"
-                  >回复</i
-                >
-                <i
-                  class="el-icon-delete"
-                  @click="deleteComment(item.id, reply.id)"
-                  v-if="userId === reply.userId"
-                  >删除</i
-                >
-              </div>
-              <div class="reply-comment" v-show="isShowSec === reply.id">
-                <el-input
-                  :placeholder="placeholderText"
-                  class="input"
-                  v-model.trim="replyContext"
-                  :maxlength="contentLength"
-                ></el-input>
-                <el-button
-                  type="info"
-                  size="mini"
-                  class="reply-button"
-                  @click="addComment(item.id, reply.username)"
-                  >回复</el-button
-                >
+              <!-- 次级评论头像,该用户没有头像则显示默认头像 -->
+              <el-avatar :size="40" :src="reply.avatarUrl"></el-avatar>
+              <div class="content">
+                <!-- 次级评论用户昵称 -->
+                <h3>{{ reply.username }}</h3>
+                <!-- 次级评论评论时间 -->
+                <span>{{ reply.date }}</span>
+                <span class="to_reply">{{ reply.username }}</span>
+                回复
+                <span class="to_reply">{{ reply.replyName }}</span
+                >:
+                <p>{{ reply.content }}</p>
+                <!-- 次级评论评论点赞 -->
+                <div class="comment-right">
+                  <TrophyButton
+                    @click="giveALike(reply, item.id)"
+                    :class="reply.favour.includes(userId) ? 'active' : ''"
+                    :data="item.favour.length"
+                  />
+                  <ReplyButton @click="isShowSecReply(reply.id)" />
+                  <DeleteCommentButton
+                    @click="deleteComment(item.id, reply.id)"
+                    v-if="userId === reply.userId"
+                  />
+                </div>
+                <Transition name="fade">
+                <div class="reply-comment" v-show="isShowSec === reply.id">
+                  <el-input
+                    :placeholder="placeholderText"
+                    class="input"
+                    v-model.trim="replyContext"
+                    :maxlength="contentLength"
+                  ></el-input>
+                  <AddCommentButton
+                    @click="addComment(item.id, reply.username)"
+                  />
+                  >
+                </div>
+              </Transition>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </transition-group>
-  <div class="comment-header">
-    <el-tooltip
-      class="item"
-      effect="dark"
-      content="点我更换头像"
-      placement="top-start"
-    >
-      <div @click="handleClick">
-        <input
-          type="file"
-          style="display: none"
-          @change="dealWithdAvatar"
-          ref="avatar"
-        />
-        <el-avatar
-          :src="
-            avatarUrl
-              ? avatarUrl
-              : 'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png'
-          "
-          :size="40"
-        ></el-avatar>
-      </div>
-    </el-tooltip>
-    <el-input
-      :placeholder="placeholderText"
-      v-model="context"
-      class="input"
-      type="textarea"
-      resize="none"
-      size="mini"
-      :maxlength="contentLength"
-      @focus="isShowSecReply(undefined)"
-    ></el-input>
-    <el-button
-      type="info"
-      style="height: 40px"
-      @click="addComment(articleId, undefined)"
-      >{{ buttonText }}</el-button
-    >
-  </div>
+    </transition-group>
     <!-- 暂无评论的空状态 -->
     <el-empty
       :description="emptyText"
       v-show="comments.length === 0"
     ></el-empty>
+    <div class="comment-header">
+      <el-tooltip
+        class="item"
+        effect="dark"
+        content="点我更换头像"
+        placement="top-start"
+      >
+        <div @click="handleClick">
+          <input
+            type="file"
+            style="display: none"
+            @change="dealWithdAvatar"
+            ref="avatar"
+          />
+          <el-avatar
+            :src="
+              avatarUrl
+                ? avatarUrl
+                : 'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png'
+            "
+            :size="40"
+          ></el-avatar>
+        </div>
+      </el-tooltip>
+      <el-input
+        :placeholder="placeholderText"
+        v-model="context"
+        class="input"
+        type="textarea"
+        resize="none"
+        size="mini"
+        :maxlength="contentLength"
+        @focus="isShowSecReply(undefined)"
+      ></el-input>
+
+      <AddCommentButton @click="addComment(articleId, undefined)" />
+    </div>
   </div>
 </template>
 <script>
@@ -182,7 +160,7 @@ export default {
     buttonText: {
       // 按钮文字
       type: String,
-      default: "评论",
+      default: "确定",
     },
     contentLength: {
       // 评论长度
@@ -340,7 +318,7 @@ export default {
         if (replyId) {
           // 删除二级评论，提交请求到后端
           let res = 0;
-          res = await this.deleteReply(replyId);
+          res = await this.deleteReplyInServer(replyId);
           if (res.data != 0) {
             // 成功后从本地记录中删除该回复
             const temp = this.comments.find((item) => item.id == id).replyInfo;
@@ -439,10 +417,12 @@ export default {
 </script>
 
 <style lang="less" scoped>
+
 .comment {
   min-height: 26vh;
-  border-radius: 5px;
-  margin-top: 2px;
+  border-radius: 10px;
+  margin: 20px;
+  padding: 10px;
   overflow: hidden;
 
   .active {
@@ -474,7 +454,8 @@ export default {
 
     .first-comment {
       display: flex;
-
+      backdrop-filter: blur(2px);
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
       .input {
         /deep/.el-input__inner:focus {
           border-color: #dcdfe6;
@@ -503,6 +484,9 @@ export default {
 
         .comment-right {
           position: absolute;
+          padding-top: 8px;
+          padding-bottom: 8px;
+          border-radius: 4px;
           right: 0;
           top: 0;
         }
@@ -520,9 +504,12 @@ export default {
 
         .second-comment {
           display: flex;
-          padding: 10px 0 10px 5px;
+          padding: 10px 10px 10px 5px;
+          margin-bottom: 10px;
           border-radius: 20px;
-          background: #ffffff;
+          backdrop-filter: blur(2px);
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+          border-radius: 10px;
 
           .to_reply {
             color: rgb(126, 127, 128);
@@ -532,25 +519,26 @@ export default {
     }
   }
 }
-.fade-leave-to{
+.fade-leave-to {
   opacity: 0;
-  transform: translateX(100%);
+  transform: translateY(-100%);
 }
-.fade-enter-from{
+.fade-enter-from {
   opacity: 0;
-  transform: translateX(100%);
+  transform: translateY(-100%);
 }
-.fade-enter-active,.fade-leave-active{
-  transition:all 1s ease-in-out;
+.fade-enter-active,
+.fade-leave-active {
+  transition: all 0.5s ease-in-out;
 }
-.fade-leave-active,.fade-enter-active {
-  position: static;
+.fade-leave-active,
+.fade-enter-active {
+  position: 0.5s;
 }
 /*移动时的动画效果*/
-.fade-move { 
-  transition:transform 1s ease;
+.fade-move {
+  transition: transform 0.5s ease;
 }
-
 </style>
 
 

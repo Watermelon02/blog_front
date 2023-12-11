@@ -4,17 +4,20 @@ import type { UploadFile, UploadFiles, UploadInstance, UploadProps, UploadRawFil
 import { genFileId } from 'element-plus'
 import router from '@/router';
 import { service } from '@/main';
+import { Upload } from '@element-plus/icons-vue'
+import axios from 'axios';
 let host = ref(import.meta.env.VITE_HOST)
-const uploadRef = ref<UploadInstance>()
+const uploadRef = ref<UploadInstance>();
 
-const title = ref('')
-const subTitle = ref('')
-const content = ref('')
-const tip = ref('')
-const dialogImageUrl = ref('')
-const dialogVisible = ref(false)
-const checkboxGroup = ref(["1"])
-const tags = [{ name: '生活', id: "1" }, { name: '安卓', id: "2" }, { name: '前端', id: "3" }, { name: '后端', id: "4" }]
+const title = ref('');
+const subTitle = ref('');
+const content = ref('');
+const tip = ref('');
+const dialogImageUrl = ref('');
+const dialogVisible = ref(false);
+const checkboxGroup = ref(["1"]);
+const tags = [{ name: '生活', id: "1" }, { name: '安卓', id: "2" }, { name: '前端', id: "3" }, { name: '后端', id: "4" }];
+axios.defaults.withCredentials = true;
 
 const uploadImage = async () => {
     uploadRef.value!.submit()
@@ -43,6 +46,7 @@ async function uploadPassage(response: any, uploadFile: UploadFile, uploadFiles:
 
 const handleError: UploadProps['onError'] = (error, uploadFile, uploadFiles) => {
     tip.value = error.stack!
+    console.log(error.stack)
 }
 
 const handleExceed: UploadProps['onExceed'] = (files) => {
@@ -97,7 +101,7 @@ const handlePictureCardPreview: UploadProps['onPreview'] = (uploadFile) => {
 
         <el-button class="ml-3" type="success" @click="uploadImage"
             style="height: 5vh;margin-top: 5vh;background-color: #40B882;">
-            发布
+            发布<el-icon class="el-icon--right"><Upload /></el-icon>
         </el-button>
     </el-card>
 

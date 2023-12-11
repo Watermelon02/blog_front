@@ -27,6 +27,7 @@ import hljs from 'highlight.js';
 import axios from 'axios';
 import { ElMessage } from 'element-plus'
 import ElementPlus from 'element-plus'
+import 'element-plus/dist/index.css'
 export const service = axios.create({
   baseURL: `${import.meta.env.ORIGIN}`,
   headers: {
@@ -50,6 +51,7 @@ service.interceptors.response.use(response => {
   return Promise.reject(error)
 })
 export const user = ref<User>();
+export const centerDialogVisible = ref(false)
 function _isMobile() {
   let flag = navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)
   if (flag) return true; else return false;

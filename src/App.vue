@@ -5,16 +5,16 @@ import TagBar from './components/TagBar.vue'
 import { useRoute } from 'vue-router'
 import { onMounted, ref, watch } from 'vue';
 import type { User, Result } from '@/bean/Bean'
-import { service, user } from './main';
+import { centerDialogVisible, service, user } from './main';
 import { ElMessage } from 'element-plus';
 import { isMobile } from "@/main";
 import { } from 'vue'
 
 const route = useRoute()
-const sideBarSpan = ref(3)
+const sideBarSpan = ref(4)
 const routerSpan = ref(16)
 const tagBarSpan = ref(4)
-const centerDialogVisible = ref(false)
+
 const email = ref('')
 const password = ref('')
 const rememberMe = ref(false)
@@ -22,10 +22,11 @@ const passwordPlaceHolder = ref('')
 
 watch(route, (() => {
   if (route.path == '/passage' || route.path == '/search' || route.path == '/tagSearch') {
-    sideBarSpan.value = 3
-    routerSpan.value = 20
+    sideBarSpan.value = 4
+    routerSpan.value = 19
+    tagBarSpan.value = 0
   } else {
-    sideBarSpan.value = 3
+    sideBarSpan.value = 4
     routerSpan.value = 16
     tagBarSpan.value = 4
   }
@@ -50,27 +51,13 @@ function callback() {//点击侧边栏CyberButton后的回调,根据是否登录
       if (response.data.status == 200) {
         localStorage.removeItem('user')
         ElMessage({ message: '登出成功', type: 'success' })
+        // 刷新页面
+        window.location.reload();
       } else {
         ElMessage.error('登出失败，还没有登录')
       }
     })
   }
-}
-
-function login() {
-  service.get<Result<User>>(
-    import.meta.env.VITE_HOST + '/user/login', {
-    params: { email: email.value, password: password.value, rememberMe: true }
-  }).then((response) => {
-    if (response.data.status == 200) {
-      user.value = response.data.data
-      localStorage.setItem('user', JSON.stringify(response.data.data))
-      centerDialogVisible.value = false
-    } else {
-      password.value = ""
-      ElMessage.error("登录失败")
-    }
-  })
 }
 
 function _isMobile() {
@@ -95,21 +82,8 @@ function _isMobile() {
       </el-col>
     </el-row>
   </div>
-  <el-dialog v-model="centerDialogVisible" title="登录" width="30%" center>
-    <el-form-item label="account">
-      <el-input v-model="email" autocomplete="off" />
-    </el-form-item>
-    <el-form-item label="password" :placeholder="passwordPlaceHolder">
-      <el-input v-model="password" autocomplete="off" show-password />
-    </el-form-item>
-    <el-row>
-      <el-col :span="21">
-        <el-button type="success" style="margin-top: 10px;" @click="login">login</el-button>
-      </el-col>
-      <el-col :span="3">
-        <el-switch v-model="rememberMe" />
-      </el-col>
-    </el-row>
+  <el-dialog v-model="centerDialogVisible" center style="background:transparent" :show-close="false">
+    <LoginDialog></LoginDialog>
   </el-dialog>
 </template>
 
@@ -144,4 +118,5 @@ nav a:first-of-type {
 .background-pc {
   height: 100%;
 }
+
 </style>
