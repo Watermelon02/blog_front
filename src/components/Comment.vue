@@ -115,7 +115,7 @@
             :src="
               avatarUrl
                 ? avatarUrl
-                : 'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png'
+                : 'http://q1.qlogo.cn/g?b=qq&nk=1446157077&s=5'
             "
             :size="40"
           ></el-avatar>
@@ -454,8 +454,7 @@ export default {
 
     .first-comment {
       display: flex;
-      backdrop-filter: blur(2px);
-          box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+
       .input {
         /deep/.el-input__inner:focus {
           border-color: #dcdfe6;

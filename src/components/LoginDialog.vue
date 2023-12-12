@@ -5,32 +5,57 @@
       <form action="#">
         <h1>Create Account</h1>
         <div class="social-container">
-          <a href="#"><img :src="qqIcon" style="visibility: 50%;" width="30" height="30" /></a>
-          <a href="#"><img :src="wechatIcon" style="visibility: 50%;" width="30" height="30" /></a>
-          <a href="#"><img :src="weiboIcon" style="visibility: 50%;" width="30" height="30" /></a>
+          <a href="#"
+            ><img :src="qqIcon" style="visibility: 50%" width="30" height="30"
+          /></a>
+          <a href="#"
+            ><img
+              :src="wechatIcon"
+              style="visibility: 50%"
+              width="30"
+              height="30"
+          /></a>
+          <a href="#"
+            ><img
+              :src="weiboIcon"
+              style="visibility: 50%"
+              width="30"
+              height="30"
+          /></a>
         </div>
         <span>or use your email for registration</span>
-        <input type="text" placeholder="Name" />
-        <input type="email" placeholder="Email" />
-        <input type="password" placeholder="Password" />
-        <button>Sign Up</button>
+        <input v-model="name" type="text" placeholder="Name" />
+        <input v-model="email" type="email" placeholder="Email" />
+        <input v-model="password" type="password" placeholder="Password" />
+        <button @click="register">Sign Up</button>
       </form>
     </div>
     <div class="form-container sign-in-container">
       <form action="#">
         <h1>Sign in</h1>
         <div class="social-container">
-          <a href="#"><img :src="qqIcon" style="visibility: 50%;" width="30" height="30" /></a>
-          <a href="#"><img :src="wechatIcon" style="visibility: 50%;" width="30" height="30" /></a>
-          <a href="#"><img :src="weiboIcon" style="visibility: 50%;" width="30" height="30" /></a>
+          <a href="#"
+            ><img :src="qqIcon" style="visibility: 50%" width="30" height="30"
+          /></a>
+          <a href="#"
+            ><img
+              :src="wechatIcon"
+              style="visibility: 50%"
+              width="30"
+              height="30"
+          /></a>
+          <a href="#"
+            ><img
+              :src="weiboIcon"
+              style="visibility: 50%"
+              width="30"
+              height="30"
+          /></a>
         </div>
         <span>or use your account</span>
-        <el-form-item label="account">
-          <el-input v-model="email" autocomplete="off" />
-        </el-form-item>
-        <el-form-item label="password" :placeholder="passwordPlaceHolder">
-          <el-input v-model="password" autocomplete="off" show-password />
-        </el-form-item>
+
+        <input v-model="email" autocomplete="off" />
+        <input v-model="password" autocomplete="off" show-password />
         <a href="#">Forgot your password?</a>
 
         <el-button @click="login">Sign In</el-button>
@@ -41,12 +66,16 @@
         <div class="overlay-panel overlay-left">
           <h1>Welcome Back!</h1>
           <p>To keep connected with us please login with your personal info</p>
-          <button class="ghost" id="signIn" @click="clickSignIn">Sign In</button>
+          <button class="ghost" id="signIn" @click="clickSignIn">
+            Sign In
+          </button>
         </div>
         <div class="overlay-panel overlay-right">
           <h1>Hello, Friend!</h1>
           <p>输入账号和密码以评论、修改个人信息、解锁更多功能</p>
-          <button class="ghost" id="signUp" @click="clickSignUp">Sign Up</button>
+          <button class="ghost" id="signUp" @click="clickSignUp">
+            Sign Up
+          </button>
         </div>
       </div>
     </div>
@@ -54,54 +83,73 @@
 </template>
   
 <script lang="ts" setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted } from "vue";
 import qqIcon from "@/assets/qq.svg";
 import wechatIcon from "@/assets/微信.svg";
 import weiboIcon from "@/assets/微博.svg";
-import { centerDialogVisible, service, user } from '../main';
-import { ElMessage } from 'element-plus';
-import { Result, User } from '../bean/Bean';
-
-
+import { centerDialogVisible, service, user } from "../main";
+import { ElMessage } from "element-plus";
+import { Result, User } from "../bean/Bean";
 
 const signUpButton = ref<HTMLElement | null>(null);
 const signInButton = ref<HTMLElement | null>(null);
 const container = ref<HTMLElement | null>(null);
-  const email = ref('')
-const password = ref('')
-const rememberMe = ref(true)
-const passwordPlaceHolder = ref('')
+const email = ref("");
+const password = ref("");
+const name = ref("");
+const rememberMe = ref(true);
+const passwordPlaceHolder = ref("");
 
 onMounted(() => {
-  signUpButton.value = document.getElementById('signUp');
-  signInButton.value = document.getElementById('signIn');
-  container.value = document.getElementById('container');
+  signUpButton.value = document.getElementById("signUp");
+  signInButton.value = document.getElementById("signIn");
+  container.value = document.getElementById("container");
 
   if (signUpButton.value && signInButton.value && container.value) {
-    signUpButton.value.addEventListener('click', () => {
-      container.value.classList.add('right-panel-active');
+    signUpButton.value.addEventListener("click", () => {
+      container?.value?.classList.add("right-panel-active");
     });
 
-    signInButton.value.addEventListener('click', () => {
-      container?.value?.classList.remove('right-panel-active');
+    signInButton.value.addEventListener("click", () => {
+      container?.value?.classList.remove("right-panel-active");
     });
   }
 });
 
 function login() {
-  service.get<Result<User>>(
-    import.meta.env.VITE_HOST + '/user/login', {
-    params: { email: email.value, password: password.value, rememberMe: true }
-  }).then((response) => {
-    if (response.data.status == 200) {
-      user.value = response.data.data
-      localStorage.setItem('user', JSON.stringify(response.data.data))
-      centerDialogVisible.value = false;
-    } else {
-      password.value = ""
-      ElMessage.error("登录失败");
-    }
-  })
+  service
+    .get<Result<User>>(import.meta.env.VITE_HOST + "/user/login", {
+      params: {
+        email: email.value,
+        password: password.value,
+        rememberMe: true,
+      },
+    })
+    .then((response) => {
+      if (response.data.status == 200) {
+        user.value = response.data.data;
+        localStorage.setItem("user", JSON.stringify(response.data.data));
+        centerDialogVisible.value = false;
+      } else {
+        password.value = "";
+        ElMessage.error("登录失败");
+      }
+    });
+}
+
+function register() {
+  service
+    .get<Result<User>>(import.meta.env.VITE_HOST + "/user/register", {
+      params: { email: email.value, password: password.value, name: name },
+    })
+    .then((response) => {
+      if (response.data.status == 200) {
+        login();
+      } else {
+        password.value = "";
+        ElMessage.error("注册失败");
+      }
+    });
 }
 </script>
 <style scoped>

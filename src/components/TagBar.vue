@@ -21,7 +21,7 @@ function search() {
 </script>
     
 <template>
-  <aside class="tag-bar" style="align-items: center">
+  <aside class="side-bar" style="align-items: right">
     <div class="blur-content">
       <LogoRing />
     </div>
@@ -76,7 +76,7 @@ input {
   border: 0;
 }
 
-.tag-bar {
+.side-bar-tag {
   top: 0px;
   position: sticky;
   display: flex;
@@ -102,6 +102,5 @@ input {
   border-radius: 10px;
   backdrop-filter: blur(2px);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  width: 100%; /* 让 .blur-content 的宽度占满父容器的宽度 */
 }
 </style>

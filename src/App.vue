@@ -39,7 +39,7 @@ watch(route, (() => {
 onMounted(() => {
   const token = localStorage.getItem('user')
   if (token != null) {
-    user.value = JSON.parse(token)
+    user.value = JSON.parse(token);
   }
 
 })
